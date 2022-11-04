@@ -30,6 +30,24 @@ app.post("/tweets", (req, res) => {
   res.send("OK");
 });
 
+app.get("/tweets", (req, res) => {
+  const lastTenTweets = tweets.reverse().slice(0, 10);
+  const lastTenAvatar = users.reverse().slice(0, 10);
+
+  const lastTenTweetsWithAvatar = lastTenTweets.map(
+    ({ username, tweet }, index) => {
+      const avatar = lastTenAvatar[index].avatar;
+      return {
+        username,
+        avatar,
+        tweet,
+      };
+    }
+  );
+
+  res.send(lastTenTweetsWithAvatar);
+});
+
 app.listen(5000, () => {
   console.log("server running in port: 5000");
 });

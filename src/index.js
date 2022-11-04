@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 
 const users = [];
+const tweets = [];
 
 app.post("/sign-up", (req, res) => {
   const { username, avatar } = req.body;
@@ -14,6 +15,18 @@ app.post("/sign-up", (req, res) => {
   };
 
   users.push(user);
+  res.send("OK");
+});
+
+app.post("/tweets", (req, res) => {
+  const { username, tweet } = req.body;
+
+  const userTweet = {
+    username,
+    tweet,
+  };
+
+  tweets.push(userTweet);
   res.send("OK");
 });
 

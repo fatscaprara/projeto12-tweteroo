@@ -1,6 +1,8 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const users = [];
@@ -26,20 +28,20 @@ app.post("/tweets", (req, res) => {
     tweet,
   };
 
-  tweets.push(userTweet);
+  tweets.unshift(userTweet);
   res.send("OK");
 });
 
 app.get("/tweets", (req, res) => {
-  const lastTenTweets = tweets.reverse().slice(0, 10);
-  const lastTenAvatar = users.reverse().slice(0, 10);
+  const lastTenTweets = tweets.slice(0, 10);
+  // const lastTenAvatar = users.reverse().slice(0, 10);
 
   const lastTenTweetsWithAvatar = lastTenTweets.map(
     ({ username, tweet }, index) => {
-      const avatar = lastTenAvatar[index].avatar;
+      const { avatar } = users.find((user) => user.username === username);
       return {
         username,
-        avatar,
+        avatar: avatar,
         tweet,
       };
     }
